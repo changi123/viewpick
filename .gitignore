@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -13,11 +11,38 @@
 
 # misc
 .DS_Store
+
+# 환경변수 파일 (Firebase 키 등 민감정보)
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# 로그 파일
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Firebase 관련
+.firebase/
+
+# VSCode 설정 파일 (개인별 설정 제외)
+.vscode/
+
+# MacOS 관련
+.DS_Store
+
+# 로그 및 임시 파일
+*.log
+*.tmp
+
+# 빌드 및 배포 폴더 (CRA 빌드 폴더)
+/build
+
+# IntelliJ IDEA, WebStorm 등 JetBrains IDE 파일
+.idea/
+
+# npm 패키지 잠금 파일 (보통은 커밋 권장하지만 필요시 제외 가능)
+/package-lock.json
+/yarn.lock
