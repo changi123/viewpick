@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getRandomMovies } from "../api/tmdb";
 import { Link } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState([]);
   const [mood, setMood] = useState("");
+  const selectRef = useRef(null);
 
   const moodGenreMap = {
-    happy: [35, 16], // 코미디, 애니
-    sad: [18], // 드라마
-    bored: [28, 53], // 액션, 스릴러
+    happy: [35, 16, 10749, 10751], // 코미디, 애니, 로맨스, 가족
+    sad: [18, 10402], // 드라마, 음악
+    bored: [28, 53, 80], // 액션, 스릴러, 범죄
     excited: [12, 14, 878], // 모험, 판타지, SF
-    healing: [10749, 99], // 로맨스, 다큐
+    scared: [27, 9648], // 공포, 미스터리
+    curious: [99, 36], // 다큐멘터리, 역사
   };
 
   const fetchMovies = async () => {
@@ -28,6 +30,14 @@ function Home() {
     fetchMovies();
   }, []);
 
+  const handleMoodChange = (e) => {
+    setMood(e.target.value);
+    // 선택 후 드롭다운 닫기 위해 포커스 해제
+    if (selectRef.current) {
+      selectRef.current.blur();
+    }
+  };
+
   const styles = {
     container: {
       maxWidth: "900px",
@@ -41,11 +51,33 @@ function Home() {
       marginBottom: "15px",
       color: "#333",
     },
+    dropdownWrapper: {
+      position: "relative",
+      width: "100%",
+      maxWidth: "320px",
+      margin: "0 auto 20px",
+    },
     dropdown: {
-      padding: "10px",
-      fontSize: "1rem",
-      borderRadius: "6px",
-      marginBottom: "20px",
+      width: "100%",
+      padding: "14px 40px 14px 15px",
+      fontSize: "1.2rem",
+      borderRadius: "10px",
+      border: "1.8px solid #ff6b6b",
+      appearance: "none",
+      WebkitAppearance: "none",
+      MozAppearance: "none",
+      backgroundColor: "#fff",
+      boxShadow: "0 2px 8px rgba(255, 107, 107, 0.3)",
+      cursor: "pointer",
+    },
+    dropdownIcon: {
+      position: "absolute",
+      right: "15px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      pointerEvents: "none",
+      fontSize: "1.4rem",
+      color: "#ff6b6b",
     },
     button: {
       backgroundColor: "#ff6b6b",
@@ -107,21 +139,23 @@ function Home() {
     <div style={styles.container}>
       <h1 style={styles.title}>🎲 오늘 뭐 볼까?</h1>
 
-      <div>
-        <label htmlFor="mood">기분 선택: </label>
+      <div style={styles.dropdownWrapper}>
         <select
           id="mood"
+          ref={selectRef}
           value={mood}
-          onChange={(e) => setMood(e.target.value)}
+          onChange={handleMoodChange}
           style={styles.dropdown}
         >
           <option value="">-- 선택하세요 --</option>
-          <option value="happy">😊 행복해요</option>
-          <option value="sad">😢 우울해요</option>
+          <option value="happy">😊 기분 전환이 필요해요</option>
+          <option value="sad">😢 감성적인 게 좋아요</option>
           <option value="bored">😐 지루해요</option>
           <option value="excited">🤩 신나요</option>
-          <option value="healing">🌿 힐링하고 싶어요</option>
+          <option value="scared">😱 무서운 게 보고 싶어요</option>
+          <option value="curious">🧠 뭔가 배우고 싶어요</option>
         </select>
+        <span style={styles.dropdownIcon}>▼</span>
       </div>
 
       <button

@@ -1,27 +1,32 @@
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 
-export async function getRandomMovies(genreIds = [], retries = 3) {
-  // 초기 페이지는 1
-  let totalPages = 1;
-
-  // 먼저 1페이지 조회해서 실제 total_pages 알아내기
+export async function getRandomMovies(genreIds = [], retries = 5) {
   const genreQuery =
     genreIds.length > 0 ? `&with_genres=${genreIds.join(",")}` : "";
+  const releaseDateQuery = "&primary_release_date.gte=2012-01-01";
 
+  // 1. 우선 totalPages를 가져옴
   const firstRes = await fetch(
-    `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=1${genreQuery}`
+    `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=1${genreQuery}${releaseDateQuery}`
   );
   const firstData = await firstRes.json();
 
-  totalPages = firstData.total_pages > 500 ? 500 : firstData.total_pages; // TMDb API 제한 최대 500페이지
+  let totalPages = firstData.total_pages;
+  if (!totalPages || totalPages === 0) return []; // 영화 없음
 
+  totalPages = Math.min(totalPages, 400); // TMDb API 제한
+
+  // 재시도 루프
   for (let attempt = 0; attempt < retries; attempt++) {
     const randomPage = Math.floor(Math.random() * totalPages) + 1;
+
     const res = await fetch(
-      `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=${randomPage}${genreQuery}`
+      `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ko-KR&sort_by=popularity.desc&page=${randomPage}${genreQuery}${releaseDateQuery}`
     );
     const data = await res.json();
+
+    if (!data.results) continue;
 
     const validMovies = data.results.filter(
       (movie) => movie.overview && movie.poster_path && movie.vote_average >= 7
@@ -33,6 +38,11 @@ export async function getRandomMovies(genreIds = [], retries = 3) {
     }
   }
 
-  // 모든 시도 실패 시 빈 배열 반환
-  return [];
+  // fallback: 첫 페이지에서라도 가져오기
+  const fallbackMovies =
+    firstData.results?.filter(
+      (movie) => movie.overview && movie.poster_path && movie.vote_average >= 7
+    ) || [];
+
+  return fallbackMovies.slice(0, 10);
 }
