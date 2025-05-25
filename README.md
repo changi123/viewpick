@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# 🎬 오늘 뭐 볼까? 기분 기반 영화 추천 웹앱 - ViewPick
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. 프로젝트 소개
 
-## Available Scripts
+**ViewPick**은 사용자의 **기분**에 따라 오늘 볼 영화를 추천해주는 웹앱입니다.  
+“오늘 뭐 볼까?” 버튼을 눌러 현재 기분을 선택하면, 그에 어울리는 영화가 랜덤으로 추천됩니다.  
+또한, 탐색 페이지에서 원하는 장르, 국가, 키워드 등으로 영화 콘텐츠를 탐색할 수 있습니다.
 
-In the project directory, you can run:
+- **🖥 배포 주소**: [https://viewpick-web.web.app/](https://viewpick-web.web.app/)
+- **📁 주요 기능**: 기분 기반 영화 추천, 조건 탐색, 상세 정보 확인, 찜 목록 저장
+- **🛠 GitHub **: https://github.com/changi123/viewpick
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 2. 프로젝트 스택
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Frontend**: React (CRA 기반)
+- **Backend/서비스**: Firebase Hosting / Firebase Authentication
+- **API**: TMDb (The Movie Database API)
+- **Styling**: CSS-in-JS, Inline Style
+- **기타**: React Router v6, 환경변수 사용
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 3. 주요 기능 소개
 
-### `npm run build`
+### ✅ 기분 기반 랜덤 추천 페이지 (홈)
+- “🎲 오늘 뭐 볼까?” 버튼 클릭
+- 사용자 기분 선택 (예: 우울해요, 기분 좋아요, 설레요, 심심해요 등)
+- 선택한 감정에 맞는 영화 장르로 필터링된 영화 중 무작위로 추천
+- 영화 정보 카드 형태로 출력
+- “마음에 들어요” / “나중에 볼래요” 버튼으로 찜 기능 제공 ( 추가예정 )
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🔍 콘텐츠 탐색 페이지 (`/search`) ( 추가예정 )
+- TMDb API 기반 영화 목록 탐색
+- 조건 필터: 장르 / 국가 / 키워드 / 연도 ( 추가예정 )
+- 무한스크롤 방식으로 영화 카드 출력
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🎞️ 상세 페이지 (`/detail/:id`)
+- 영화의 포스터, 제목, 개봉일, 평점, 줄거리 등 정보 표시
+- 주요 출연진 5명, 제공 중인 OTT(한국 기준) 정보 포함
+- 유튜브 예고편 임베드
+- TMDb 추천 영화 6개 출력
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### ⭐ 즐겨찾기 페이지 (`/favorites`) ( 추가예정 )
+- 로그인한 사용자 전용
+- “마음에 들어요” / “나중에 볼래요”로 저장한 영화 리스트 확인 가능
 
-### `npm run eject`
+### 👤 마이페이지 ( 추가예정 )
+- Firebase Auth 기반 로그인 / 회원가입
+- 찜한 영화 목록 관리
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 4. 핵심 구현 포인트
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 😄 기분 기반 추천 로직
+- 사용자가 기분을 선택하면 미리 정의된 기분-장르 매핑 데이터를 기반으로 랜덤 추천
+  - 예: `우울해요 → 코미디`, `설레요 → 로맨스`, `심심해요 → 액션`
+- 선택된 장르를 기반으로 TMDb에서 영화를 호출하고, 거기서 무작위 추출
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🔑 TMDb API 활용
+- 다양한 endpoint: `/discover/movie`, `/movie/{id}`, `/movie/{id}/videos`, `/movie/{id}/recommendations`
+- 국가, 장르, 키워드 등 파라미터 필터 활용
+- 유튜브 예고편 키 추출 후 iframe 임베딩
 
-## Learn More
+### 🔥 Firebase 연동
+- Firebase Auth를 통해 로그인/회원가입 구현
+- 로그인 여부에 따라 찜 버튼 활성화
+- Firebase Hosting으로 배포
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
