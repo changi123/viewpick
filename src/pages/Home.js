@@ -193,6 +193,9 @@ function Home() {
             </Link>
           ))}
       </div>
+      <p style={{ marginTop: "40px", fontSize: "0.85rem", color: "#888" }}>
+        This product uses the TMDb API but is not endorsed or certified by TMDb.
+      </p>
     </div>
   );
 }

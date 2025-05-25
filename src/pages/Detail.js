@@ -548,6 +548,10 @@ filter: grayscale(0%);
               </div>
             </section>
           )}
+        <p style={{ marginTop: "40px", fontSize: "0.85rem", color: "#888" }}>
+          This product uses the TMDb API but is not endorsed or certified by
+          TMDb.
+        </p>
       </div>
     </>
   );
