@@ -70,3 +70,14 @@
 - Firebase Hosting으로 배포
 
 ---
+
+## 5. 주요 UI
+
+| ![홈화면](https://velog.velcdn.com/images/changi_gg/post/5fcae648-681b-4f7d-8ce2-9f2b6bb50fe7/image.jpg) | ![기분선택](https://velog.velcdn.com/images/changi_gg/post/5ed8b0e4-8116-4385-a93d-294acb4fc8d2/image.jpg) |
+|:--:|:--:|
+| 홈화면 | 기분 선택 |
+
+| ![추천결과](https://velog.velcdn.com/images/changi_gg/post/9736fc16-5120-4c9c-8bd0-a3d347217087/image.jpg) | ![상세페이지](https://velog.velcdn.com/images/changi_gg/post/82d0e926-b38e-469f-ae13-5839bc6951ab/image.jpg) |
+|:--:|:--:|
+| 기분 선택 시 추천 결과 | 상세 페이지 |
+
